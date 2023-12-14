@@ -17,7 +17,7 @@ genre_mapping = {
     'Q1097630': 'Non specificato'
 }
 
-# Funzione per ottenere i dati demografici
+# Funzione per ottenere i dati demografici. Si invia una query SPARQL a WikiData per ottenere genere, data di nascita e luogo di nascita per ciascun artista, in base al suo nome.
 def get_demographic_data(artist_name):
     if artist_name is None or not isinstance(artist_name, str):
         return (None, None, None)
@@ -64,7 +64,7 @@ def get_demographic_data(artist_name):
             print(f"Errore: {e}")
             # Registra informazioni più dettagliate sull'errore se necessario
             data = None
-
+# Ritorna i valori e assegnali a ogni campo, altrimenti lo lascia vuoto
     if data and 'results' in data and 'bindings' in data['results'] and data['results']['bindings']:
         genre_url = data['results']['bindings'][0]['genre']['value'] if 'genre' in data['results']['bindings'][0] else None
         birth_date = data['results']['bindings'][0]['birthDate']['value'] if 'birthDate' in data['results']['bindings'][0] else None
