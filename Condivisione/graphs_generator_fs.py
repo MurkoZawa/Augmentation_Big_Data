@@ -10,31 +10,31 @@ delimiter = ','  # Adatta il delimitatore in base al tuo file
 
 
 
-# Define a function to remove "T00:00:00Z" from date strings
+# Rimuovere "T00:00:00Z" dalle date
 def remove_date_suffix(date_str):
     # Replace "T00:00:00Z" with an empty string
     cleaned_date = date_str.replace("T00:00:00Z", "")
     
-    # Replace the first two characters with '19'
+    # Rimpiazza gli anni erroneamente salvati come '00' con '19'
     cleaned_date = '19' + cleaned_date[2:] if len(cleaned_date) >= 4 else cleaned_date
     
     return cleaned_date
 
-# Load the dataset, apply the converter to the relevant columns
+# Applica la funzione alle date
 converters = {'artist_birth_date': remove_date_suffix}
-# Load the dataset
+# Carica il dataset
 df = pd.read_csv(input_file, converters=converters)
 # Filtra il DataFrame per includere solo 'Male' e 'Female' nell'artist_genre
 filtered_df = df[df['artist_genre'].isin(['Male', 'Female'])]
 
-# Assuming the dataset columns are 'user_id', 'track_id', 'interaction_count', 'total_playcount',
+# Le colonne del dataset sono 'user_id', 'track_id', 'interaction_count', 'total_playcount',
 # 'track_name', 'artist_name', 'artist_genre', 'artist_birth_date', 'artist_birth_place'
 
-# Group by demographic attributes (e.g., 'artist_genre', 'artist_birth_date', 'artist_birth_place')
+# Gruppi demografici (e.g., 'artist_genre', 'artist_birth_date', 'artist_birth_place')
 demographic_groups = ['artist_genre', 'artist_birth_date', 'artist_birth_place']
 
 for demographic_attribute in demographic_groups:
-    # Group by demographic attribute
+    # Raggruppa per demographic attribute
     grouped_data = filtered_df.groupby(demographic_attribute)
 
     # Calcola la distribuzione delle preferenze (e.g., 'total_playcount')
